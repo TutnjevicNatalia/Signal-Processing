@@ -47,8 +47,7 @@ function [preprocessed_data, labels] = preprocess(dataDir)
 
         preprocessed_data = X;
 
-    %% --- Iteration 2: Enhanced preprocessing ---
-    elseif CURRENT_ITERATION == 2
+
     %% --- Iteration 2: Enhanced preprocessing ---
     elseif CURRENT_ITERATION == 2
     % X starts as EEG epochs from load_training_data:
