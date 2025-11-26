@@ -26,22 +26,19 @@ function [hdr_all, record_all] = read_edf(filePath)
         % store header now; we'll store cleaned signals later
         hdr_all{r} = hdr;
 
-        %% ---------- PRINT CHANNEL INFO ----------
+        %% print channel info
         
-        fs = hdr.samples(:)%.' ./ hdr.duration; 
-        duration = hdr.duration 
+        fs = hdr.samples(:).' ./ hdr.duration; 
 
-        
-
-        for i = 1:numel(hdr.label)
-            fprintf('Channel %2d: %-12s | fs = %.2f Hz\n', i, hdr.label{i}, fs(i));
-        end
-
-        labels = string(hdr.label);
-        for i = 1:numel(labels)
-            fprintf('Ch %2d: %-14s | samples/rec = %4d | rec dur = %.2f s | fs = %.2f Hz\n', ...
-                i, labels(i), hdr.samples(i), hdr.duration, fs(i));
-        end
+%         for i = 1:numel(hdr.label)
+%             fprintf('Channel %2d: %-12s | fs = %.2f Hz\n', i, hdr.label{i}, fs(i));
+%         end
+% 
+%         labels = string(hdr.label);
+%         for i = 1:numel(labels)
+%             fprintf('Ch %2d: %-14s | samples/rec = %4d | rec dur = %.2f s | fs = %.2f Hz\n', ...
+%                 i, labels(i), hdr.samples(i), hdr.duration, fs(i));
+%         end
 
         %% Checking for missing data 
         [nCh, nSamples] = size(record);
@@ -51,15 +48,16 @@ function [hdr_all, record_all] = read_edf(filePath)
         infCount  = sum(isinf(record),  2);
         outlierCount = sum(abs(record) > ampThresh, 2);
 
-        fprintf('\n=== Data quality BEFORE cleaning (%s) ===\n', recName);
-        for ch = 1:nCh
-            fprintf('Ch %2d (%-12s): NaN=%5d, Inf=%5d, |x|>%g =%5d\n', ...
-                ch, hdr.label{ch}, nanCount(ch), infCount(ch), ampThresh, outlierCount(ch));
-        end
+%         fprintf('\n=== Data quality BEFORE cleaning (%s) ===\n', recName);
+%         for ch = 1:nCh
+%             fprintf('Ch %2d (%-12s): NaN=%5d, Inf=%5d, |x|>%g =%5d\n', ...
+%                 ch, hdr.label{ch}, nanCount(ch), infCount(ch), ampThresh, outlierCount(ch));
+%         end
 
-       
+       record_all{r} = record; 
+
     end  
     
-    fprintf('%d', hdr.duration)
-    
+
+
 end
